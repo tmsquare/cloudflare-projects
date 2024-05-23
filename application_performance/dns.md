@@ -17,57 +17,18 @@ Cloudflare DNS is an enterprise-grade authoritative DNS service that offers the 
 * `Performance`: fastest DNS in the world, offering DNS lookup speed of 11ms on average and worldwide DNS propagation in less than five seconds.
 * `Easy management`: user-friendly interfaces and access via API
 
-## 2. Zone setups
-### 2.1 Authoritative DNS
-You can use Cloudflare as your primary DNS provider and manage your DNS records on Cloudflare
-![Primary DNS](../../assets/auth_dns.png)
+## 2. Primary DNS
+### 2.1 Full Setup
+If you want to use Cloudflare as your primary DNS provider and manage your DNS records on Cloudflare, your domain should be using a full setup. This means that you are using Cloudflare for your authoritative DNS nameservers.
+![Full Setup](../assets/full-setup.png)
 
-### 2.2 Secondary DNS
+### 2.2 CNAME Setup
+A partial (CNAME) setup allows you to use Cloudflare’s reverse proxy while maintaining your primary and authoritative DNS provider. Use this option to proxy only individual subdomains through Cloudflare’s global network when you cannot change your authoritative DNS provider.
+
+The following diagram shows an example where you just want to *CNAME* the `blog` subdomain on Cloudflare
+![CNAME Setup](../assets/cname-setup.png)
+
+## 2. Secondary DNS
 With incoming zone transfers, you can keep your primary DNS provider and use Cloudflare as a secondary DNS provider.
-![Secondary DNS](../../assets/secondary_dns.png)
+![Secondary DNS](../assets/secondary_dns.png)
 
-## 3. Getting started
-
-### 3.1 Create a full setup zone
-Go back to the parent folder of this github repository, edit the `main.py` file with the following code:
-```
-from client.cf_client import Client
-
-ZONES = [("YOUR_DOMAIN", "full")]
-
-# Create a zone 
-dns = Client(scope="dns").get()
-dns.create_multiple_zones(account_id="YOUR_ACCOUNT_ID", zones=ZONES)
-
-# Add an A record
-dns.create_dns_record(zone_name="YOUR_DOMAIN", type="A", content="76.76.21.21", name="YOUR_DOMAIN") 
-```
-
-Export your credentials and execute the script:
-```
-$ export CF_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-$ export CF_EMAIL="xxxxxx@xyz.yz"
-
-python3 main.py
-```
-
-A `zones_output.txt` file will be created containing the value of the nameservers assigned by Cloudflare to your domain. 
-Copy the value of those name servers and update your `NS` records on your domain registrar.
-
-Note that the domain propagation can take up to 24h.
-
-### 3.2 Your domain information
-```
-# Verify that CF nameservers on your domain
-$ dig NS +noadditional +noquestion +nocomments +nocmd +nostats YOUR_DOMAIN.
-
-# Check that CF acts as reverse proxy 
-# Normally you should CF ips. Your server's identity is hidden
-$ dig A +noadditional +noquestion +nocomments +nocmd +nostats YOUR_DOMAIN.
-```
-
-### 3.3 Check DDoS mitigation
-```
-# Generate an instant high traffic on your domain and check the analytics from the dashbord
-$ ab -n 10000  https://YOUR_DOMAIN
-```

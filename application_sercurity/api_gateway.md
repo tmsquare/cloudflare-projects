@@ -14,7 +14,7 @@ This guide shows how to set up publicly accessible API server, which can be used
 We will use `Mockoon` to create our server. Mockoon is a set of free and open-source API mocking tools. (https://mockoon.com/)
 The configuration of the server is all defined on the `data.json` file. (feel free to update the endpoints)
 
-![Demo options](../../assets/api_gateway.png)
+![Demo options](../assets/api_gateway.png)
 
 ## 1. Demo Setup
 

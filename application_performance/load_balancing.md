@@ -21,7 +21,7 @@ Cloudflare Load Balancing distributes traffic across your servers, which reduces
 ## 2. Global Network and Steering Policies
 ### 2.1 Global Network
 By using Cloudflare Load Balancing, you can also benefit from a big range or security and performance services (WAF, CDN, DDoS, etc) in a single and unified platform
-![Primary DNS](../../assets/load_balancing.png)
+![Primary DNS](../assets/load_balancing.png)
 
 ### 2.2 Steering Policies
 * Traffic steering (between mutliple pools)
