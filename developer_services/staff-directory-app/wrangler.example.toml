@@ -1,0 +1,11 @@
+name = "staff-directory"
+compatibility_date = "2023-12-01"
+
+#[[r2_buckets]]
+#binding = "MY_BUCKET"
+#bucket_name = ""
+
+#[[d1_databases]]
+#binding = "DB"
+#database_name = "my-database"
+#database_id = ""

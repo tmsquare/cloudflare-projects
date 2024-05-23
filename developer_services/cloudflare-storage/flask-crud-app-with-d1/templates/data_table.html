@@ -1,0 +1,22 @@
+<table border="1">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>IP</th>
+            <th>RL Count</th>
+            <th>Flag</th>
+            <!-- Add additional columns based on your data model -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in data %}
+            <tr>
+                <td>{{ entry["time_stamp"] }}</td>
+                <td>{{ entry["IP"] }}</td>
+                <td>{{ entry["rl_count"] }}</td>
+                <td>{{ entry["flag"] }}</td>
+                <!-- Add additional columns based on your data model -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+chromedriver
+chromedriver.exe
+token.json
+__pycache__
+.DS_Store
+.venv
+.venv/*
+wrangler.toml
+
+
+

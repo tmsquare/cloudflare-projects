@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flask CRUD UI</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+<body>
+    <div class="container">
+        <h1>Lisbon's store</h1>
+    
+        <form id="crudForm" class="operation-form">
+            <label for="database">Select Database:</label>
+            <select id="database" name="database">
+                <option value="...">...</option>
+                <option value="test_d1">test_d1</option>
+                <!-- Add options dynamically based on available databases -->
+            </select>
+            <br>
+            <label for="table">Select Table:</label>
+            <select id="table" name="table">
+                <option value="RL_table">...</option>
+            </select>
+            <br>
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation">
+                <option value="create">Create</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+            </select>
+            <br>
+            <label for="time_stamp">Timestamp:</label>
+            <input type="text" id="time_stamp" name="time_stamp" required>
+            <br>
+            <label for="IP">IP:</label>
+            <input type="text" id="IP" name="IP" required>
+            <br>
+            <label for="rl_count">RL Count:</label>
+            <input type="number" id="rl_count" name="rl_count" required>
+            <br>
+            <label for="flag">Flag:</label>
+            <input type="text" id="flag" name="flag" required>
+            <br>
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+
+        <div id="readForm" class="operation-form">
+            <h2>List the RL_table</h2>
+            <label for="readDatabase">Select Database:</label>
+            <select id="readDatabase" name="readDatabase">
+                <option value="test_d1">test_d1</option>
+                <option value="...">...</option>
+                <!-- Add options dynamically based on available databases -->
+            </select>
+            <br>
+            <label for="readTable">Select Table:</label>
+            <select id="readTable" name="readTable">
+                <option value="RL_table">RL_table</option>
+                <option value="...">...</option>
+            </select>
+            <br>
+            <button type="button" onclick="fetchData()">Fetch Data</button>
+        </div>
+
+        <div id="readResult" class="result-table">
+            <!-- Display the result table here -->
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</body>
+</html>

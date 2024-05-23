@@ -1,0 +1,28 @@
+{
+  "name": "workers-graphql-server",
+  "private": true,
+  "description": "🔥Lightning-fast, globally distributed Apollo GraphQL server, deployed at the edge using Cloudflare Workers",
+  "version": "1.1.1",
+  "author": "Kristian Freeman <kristian@bytesized.xyz>",
+  "dependencies": {
+    "apollo-datasource-rest": "^3.2.0",
+    "apollo-server-cloudflare": "^3.3.0",
+    "buffer": "^6.0.3",
+    "crypto": "^1.0.1",
+    "graphql": "^15.6.0",
+    "https": "^1.0.0",
+    "os": "^0.1.2",
+    "util": "^0.12.5",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "prettier": "^2.4.1",
+    "webpack": "^5.56.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "license": "MIT",
+  "main": "src/index.js"
+}

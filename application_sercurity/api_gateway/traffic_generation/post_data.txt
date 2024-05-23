@@ -1,0 +1,7 @@
+{
+	"name": "API Generator", 
+    "firstname": "John",
+    "lastname": "Doe",
+    "birthdate": "12-09-1987",
+    "email": "doe@gmail.com"
+}
