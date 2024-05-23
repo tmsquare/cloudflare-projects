@@ -4,6 +4,8 @@ token.json
 __pycache__
 .DS_Store
 .venv
+env
+venv
 .venv/*
 wrangler.toml
 
