@@ -11,12 +11,12 @@ Cloudflare R2 Storage allows developers to store large amounts of unstructured d
  *  Install Wrangler within your project using npm and Node.js: `npm install wrangler --save-dev` 
 
 ### 1. Login to your account
-```
+```sh
 $ make login
 ```
 
 ### 2. Create a Worker project
-```
+```sh
 $ make create_worker r2-demo
 ```
 When setting up your `r2-demo` Worker, answer the questions as below:
@@ -28,7 +28,7 @@ When setting up your `r2-demo` Worker, answer the questions as below:
 
 
 ### 3. Create a Bucket
-```
+```sh
 $ make create_bucket <NAME>
 ```
 
@@ -41,7 +41,7 @@ bucket_name = '<YOUR_BUCKET_NAME>'
 ```
 
 ### 4. Interact with your buckets
-```
+```sh
 $ make delete_bucket <NAME>
 $ make list_buckets
 $ make get_object <BUCKET> <KEY> <LOCAL_PATH>
@@ -52,7 +52,7 @@ $ make delete_object <BUCKET> <KEY>
 ### 5. Access your R2 bucket from your Worker
 Replace the `src/index.js` file with the following code. 
 
-```
+```js
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -93,7 +93,7 @@ export default {
 ```
 
 ### 6. Deploy your worker to Cloudflare's global network
-```
+```sh
 $ make deploy
 ```
 

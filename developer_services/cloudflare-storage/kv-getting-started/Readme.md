@@ -18,7 +18,7 @@ This is a blank project for CDK development with Python.
  3. Select Purchase Workers Paid and complete the payment process to enable Workers KV.
 
 ### 2. Create a Worker project
-```
+```sh
 $ make create_worker kv-demo
 ```
 When setting up your `kv-demo` Worker, answer the questions as below:
@@ -32,7 +32,7 @@ When setting up your `kv-demo` Worker, answer the questions as below:
 ### 3. Create a KV namespace
 
 A KV namespace is a key-value database replicated to Cloudflare’s global network.
-```
+```sh
 $ make create_namespace <NAMESPACE>
 ```
 
@@ -45,7 +45,7 @@ kv_namespaces = [
 ```
 
 ### 4. Interact with your KV namespace
-```
+```sh
 $ make list_namespaces
 $ make put_key <KEY> <VALUE> <NAMESPACE_ID
 $ make get_key <KEY> <NAMESPACE_ID>
@@ -56,7 +56,7 @@ $ make delete_key <KEY> <NAMESPACE_ID>
 ### 5. Interact with your KV namespace (with workers)
 Replace the `src/index.ts` file with the following code. And edit the values of `YOUR_KV_NAMESPACE`, `KEY` and `VALUE`
 
-```
+```js
 export interface Env {
   	YOUR_KV_NAMESPACE: KVNamespace;
 }
@@ -82,7 +82,7 @@ export default {
 ```
 
 ### 6. Deploy your KV to Cloudflare's global network
-```
+```sh
 $ make deploy
 ```
 

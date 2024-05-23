@@ -1,0 +1,12 @@
+name = "workers-graphql-server"
+main = "./src/index.js"
+compatibility_date = "2024-02-08"
+node_compat = true
+
+
+# Enable a kv-namespace to use the KV caching feature
+#kv_namespaces = [
+#   { binding = "WORKERS_GRAPHQL_CACHE", id = "" }
+#]
+
+

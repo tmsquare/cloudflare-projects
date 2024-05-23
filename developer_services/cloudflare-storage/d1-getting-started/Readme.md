@@ -13,12 +13,12 @@ D1 is Cloudflare’s native serverless SQL database. D1 allows you to build appl
 ## 1. Create a database
 
 ### 1.1 Login to your account
-```
+```sh
 $ make login
 ```
 
 ### 1.2 Create a Worker project
-```
+```sh
 $ make create_worker d1-worker
 ```
 When setting up your `d1-worker` Worker, answer the questions as below:
@@ -30,7 +30,7 @@ When setting up your `d1-worker` Worker, answer the questions as below:
 
 
 ### 1.3 Create a database
-```
+```sh
 make create_database test_d1
 ```
 
@@ -45,22 +45,22 @@ database_id = "<unique-ID-for-your-database>"
 
 ### 1.4 Run a query against your D1 database
 Create a `schema.sql` file
-```
+```sh
 $ cd d1-worker
 $ touch schema.sql
 ```
 Append the following snippet
-```
+```sql
 DROP TABLE IF EXISTS RL_table;
 CREATE TABLE IF NOT EXISTS RL_table (rl_count INTEGER PRIMARY KEY, time_stamp TEXT, IP TEXT, flag TEXT);
 INSERT INTO RL_table (rl_count, time_stamp, IP, flag) VALUES (3, '2023-12-19T00:00:00Z', '74.59.85.39', 'blocked'), (7, '2023-12-19T00:01:00Z', '34.59.85.39', 'not_blocked'), (20, '2024-12-19T00:00:00Z', '192.59.85.39', 'blocked'), (13, '2023-02-19T00:00:00Z', '13.13.58.93', 'blocked');
 ```
 Create the `RL_table`
-```
+```sh
 $ make exucute_query test_d1 schema.sql
 ```
 Interact with D1
-```
+```sh
 $ make list_databases
 $ make delete_database <DATABASE_NAME>
 $ make exucute_query <DATABASE_NAME> <PATH_TO_SQL_COMMANDS_FILE>
@@ -68,7 +68,7 @@ $ make exucute_query <DATABASE_NAME> <PATH_TO_SQL_COMMANDS_FILE>
 
 ### 1.5 Interact with your D1 (with workers)
 Replace the `src/index.ts` file with the following code.
-```
+```js
 export interface Env {
   // If you set another name in wrangler.toml as the value for 'binding',
   // replace "DB" with the variable name you defined.
@@ -95,7 +95,7 @@ export default {
 ```
 
 ### 1.6 Deploy your worker to Cloudflare's global network
-```
+```sh
 $ make deploy
 ```
 
@@ -103,18 +103,18 @@ Now you can get all the elements of the `RL_table` from your worker's public URL
 
 
 ## 2. Interact with D1 using a Flask server 
-```
-$ cd ../d1-app & pip3 install Flask
+```sh
+$ cd ../flask-d1-app & pip3 install Flask
 ```
 Create your environment variables
-```
+```sh
 $ export account_ID       = YOUR_CLOUDFLARE_ACCOUNT_ID
 $ export cloudflare_EMAIL = YOUR_CLOUDFLARE_ACCOUNT_EMAIL
 $ export cloudflare_Token = YOUR_CLOUDFLARE_ACCOUNT_TOKEN
 $ export database_ID      = YOUR_D1_DATABASE_ID            # "test_d1" db 
 ```
 Run the python server
-```
+```sh
 $ python3 app.py
 ```
 Your server is now reachable on `http://localhost:5000`

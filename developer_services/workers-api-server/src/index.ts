@@ -42,7 +42,7 @@ app.use('*', async (c, next) => {
 });
 
 app.get('/', (c) => {
-  return c.text('Welcome to Photograver API store. You can do CRUD operations on these endpoints: /products, /users & /posts');
+  return c.text('Welcome to your API store. You can do CRUD operations on these endpoints: /products, /users & /posts');
 });
 
 // PRODUCTS

@@ -6,8 +6,40 @@ Try it here: https://edge-chat-demo.cloudflareworkers.com
 
 The reason this demo is remarkable is because it deals with state. Before Durable Objects, Workers were stateless, and state had to be stored elsewhere. State can mean storage, but it also means the ability to coordinate. In a chat room, when one user sends a message, the app must somehow route that message to other users, via connections that those other users already had open. These connections are state, and coordinating them in a stateless framework is hard if not impossible.
 
-## How does it work?
+## Prerequisites
 
+ *  Sign up for a Cloudflare Account : `https://dash.cloudflare.com/sign-up`
+ *  Install npm: `https://docs.npmjs.com/getting-started`
+ *  Install Node.js: `https://nodejs.org/en/`
+ *  Install Wrangler within your project using npm and Node.js: `npm install wrangler --save-dev`
+
+## 1. Copy the wrangler file and configure
+```sh
+cp wrangler.example.toml wrangler.toml
+```
+
+## 2. Test
+Deploy your worker on your local machine to test
+```sh
+wrangler dev
+```
+
+## 3. Deployment
+Deploy your worker on Cloudflare Edge
+```sh
+wrangler deploy
+```
+
+## 4. Link with your domain
+- 1. Connect to Cloudflare dashboard
+- 2. Click on `Workers & Pages` then `workers-graphql-server`
+- 3. Go to `Settings` after `Triggers` 
+- 4. There you can `Add Custom Domain` to your worker. Example: `chat.your_domain`
+- 5. Now your graphql server is publicly accessible via `https://chat.YOUR_DOMAIN`
+
+### 5. Additional informations
+
+### 5.1 How does it work?
 This chat app uses a Durable Object to control each chat room. Users connect to the object using WebSockets. Messages from one user are broadcast to all the other users. The chat history is also stored in durable storage, but this is only for history. Real-time messages are relayed directly from one user to others without going through the storage layer.
 
 Additionally, this demo uses Durable Objects for a second purpose: Applying a rate limit to messages from any particular IP. Each IP is assigned a Durable Object that tracks recent request frequency, so that users who send too many messages can be temporarily blocked -- even across multiple chat rooms. Interestingly, these objects don't actually store any durable state at all, because they only care about very recent history, and it's not a big deal if a rate limiter randomly resets on occasion. So, these rate limiter objects are an example of a pure coordination object with no storage.
@@ -16,7 +48,7 @@ This chat app is only a few hundred lines of code. The deployment configuration 
 
 For more details, take a look at the code! It is well-commented.
 
-## Updates
+### 5.2 Updates
 
 This example was originally written using the [WebSocket API](https://developers.cloudflare.com/workers/runtime-apis/websockets/), but has since been [modified](https://github.com/cloudflare/workers-chat-demo/pull/32) to use the [WebSocket Hibernation API](https://developers.cloudflare.com/durable-objects/api/websockets/#websocket-hibernation), which is exclusive to Durable Objects.
 
@@ -24,33 +56,18 @@ Prior to switching to the Hibernation API, WebSockets connected to a chatroom wo
 
 Switching to the WebSocket Hibernation API reduces duration billing from the lifetime of the WebSocket connection to the amount of time when JavaScript is actively executing.
 
-## Learn More
+### 5.3 Learn More
 
 * [Durable Objects introductory blog post](https://blog.cloudflare.com/introducing-workers-durable-objects)
 * [Durable Objects documentation](https://developers.cloudflare.com/workers/learning/using-durable-objects)
 * [Durable Object WebSocket documentation](https://developers.cloudflare.com/durable-objects/reference/websockets/)
 
-## Deploy it yourself
 
-If you haven't already, enable Durable Objects by visiting the [Cloudflare dashboard](https://dash.cloudflare.com/) and navigating to "Workers" and then "Durable Objects".
-
-Then, make sure you have [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler/install-update), the official Workers CLI, installed. Version 3.30.1 or newer is recommended for running this example.
-
-After installing it, run `wrangler login` to [connect it to your Cloudflare account](https://developers.cloudflare.com/workers/cli-wrangler/authentication).
-
-Once you've enabled Durable Objects on your account and have Wrangler installed and authenticated, you can deploy the app for the first time by running:
-
-    wrangler deploy
-
-If you get an error saying "Cannot create binding for class [...] because it is not currently configured to implement durable objects", you need to update your version of Wrangler.
-
-This command will deploy the app to your account under the name `edge-chat-demo`.
-
-## What are the dependencies?
+### 5.4 What are the dependencies?
 
 This demo code does not have any dependencies, aside from Cloudflare Workers (for the server side, `chat.mjs`) and a modern web browser (for the client side, `chat.html`). Deploying the code requires Wrangler.
 
-## How to uninstall
+### 5.5 How to uninstall
 
 Modify wrangler.toml to remove the durable_objects bindings and add a deleted_classes migration. The bottom of your wrangler.toml should look like:
 

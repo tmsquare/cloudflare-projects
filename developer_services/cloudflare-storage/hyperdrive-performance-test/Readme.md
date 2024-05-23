@@ -13,11 +13,11 @@ Turn your existing regional database into a globally distributed database.
 
 ## 1. Populate your postges DB
 Install `psycopg2`
-```
+```sh
 $ pip3 install psycopg2
 ```
 Create the `app.py` and add the following snippet
-```
+```python
 import psycopg2
 
 # Replace these values with your database connection details
@@ -60,17 +60,17 @@ cursor.close()
 conn.close()
 ```
 Execute the query
-```
+```sh
 $ python3 app.py
 ```
 ## 2. Create a Hyperdrive connection
 ### 2.1 Login to your account
-```
+```sh
 $ make login
 ```
 
 ### 2.2 Create a Worker project
-```
+```sh
 $ make create_worker hd-demo
 ```
 When setting up your `hd-demo` Worker, answer the questions as below:
@@ -82,7 +82,7 @@ When setting up your `hd-demo` Worker, answer the questions as below:
 
 
 ### 3. Connect Hyperdrive to a database
-```
+```sh
 make create_hyperdrive_conn <NAME> <CONNECTION_STRING>
 
 # Example of <CONNECTION_STRING>:  postgres://USERNAME:PASSWORD@HOSTNAME_OR_IP_ADDRESS:PORT/database_name
@@ -90,7 +90,7 @@ make create_hyperdrive_conn <NAME> <CONNECTION_STRING>
 
 #### Bind your namespace to your worker
 In your `wrangler.toml` file, add the following with the values generated in your terminal:
-```
+```sh
 node_compat = true # required for database drivers to function
 
 [[hyperdrive]]
@@ -99,21 +99,21 @@ id = "a76axxxxx42644deb02c38d6xxxxxxxa" # the ID associated with the Hyperdrive 
 ```
 
 ### 4. Interact with Hyperdrive
-```
-make create_hyperdrive_conn <NAME> <CONNECTION_STRING>"
-make list_hyperdrive_conns"
-make delete_hyperdrive_conn <ID>"
-make get_hyperdrive_conn <ID>" 
+```sh
+make create_hyperdrive_conn <NAME> <CONNECTION_STRING>
+make list_hyperdrive_conns
+make delete_hyperdrive_conn <ID>
+make get_hyperdrive_conn <ID>
 ```
 
 ### 5. Deploy your worker: "select * from users"
 Install `node-postgres`
-```
+```sh
 $ cd hd-demo
 $ npm i pg
 ```
 Replace the `src/index.ts` file with the following code.
-```
+```ts
 import { Client } from 'pg';
 
 export interface Env {
@@ -146,17 +146,17 @@ export default {
 ```
 
 ### 6. Deploy your worker to Cloudflare
-```
+```sh
 $ make deploy
 ```
 
 ## 3. Test the performances
 Create an environment variable for your worker's public URL
-```
+```sh
 $ export hd_worker = YOUR_WORKER_URL
 ```
 Edit the `app.py` file with the following snippet:
-```
+```python
 import psycopg2
 import time
 import requests
@@ -213,7 +213,7 @@ print(f"Using a hyperdrive link: {elapsed_time:.2f} milliseconds")
 #print(rows)
 ```
 Execute the script two times
-```
+```sh
 $python3 ../app.py # Execution 1
 
 $python3 ../app.py # Execution 2

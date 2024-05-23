@@ -1,8 +1,8 @@
 # Cloudflare Workers graphql-server
 
-An [Apollo GraphQL](https://www.apollographql.com/) server, built with [Cloudflare Workers](https://workers.cloudflare.com). [Try a demo by looking at a deployed GraphQL playground](https://graphql-on-workers.signalnerve.com/___graphql).
+An [Apollo GraphQL](https://www.apollographql.com/) server, built with [Cloudflare Workers](https://workers.cloudflare.com). 
 
-Why this rules: Cloudflare Workers is a serverless application platform for deploying your projects across Cloudflare's massive distributed network. Deploying your GraphQL application to the edge is a huge opportunity to build consistent low-latency API servers, with the added benefits of "serverless" (I know, the project has `server` in it): usage-based pricing, no cold starts, and instant, easy-to-use deployment software, using Wrangler.
+Cloudflare Workers is a serverless application platform for deploying your projects across Cloudflare's massive distributed network. Deploying your GraphQL application to the edge is a huge opportunity to build consistent low-latency API servers, with the added benefits of "serverless" (I know, the project has `server` in it): usage-based pricing, no cold starts, and instant, easy-to-use deployment software, using Wrangler.
 
 
 ## Prerequisites
@@ -12,7 +12,10 @@ Why this rules: Cloudflare Workers is a serverless application platform for depl
  *  Install Node.js: `https://nodejs.org/en/`
  *  Install Wrangler within your project using npm and Node.js: `npm install wrangler --save-dev`
 
-## 1. Configuration
+## 1. Copy the wrangler file and configure
+```sh
+cp wrangler.example.toml wrangler.toml
+```
 You'll need to configure your project's `wrangler.toml` file to prepare your project for deployment. Basically you just need uncomment the `KV` section and add your Cloudflare `KV namespace ID`, if you want CF to cache the most requested data at the edge. 
 
 To start using the project, configure your `graphQLOptions` object in `src/index.js`:
@@ -28,7 +31,12 @@ const graphQLOptions = {
 }
 ```
 
-## 2. Test
+## 2. Install the dependencies
+```sh
+npm install
+```
+
+## 3. Test
 Deploy your worker on your local machine to test
 ```sh
 wrangler dev
@@ -54,20 +62,20 @@ query Carts {
 }
 ```
 
-## 3. Deployment
+## 4. Deployment
 Deploy your worker on Cloudflare Edge
 ```sh
 wrangler deploy
 ```
 
-## 4. Link with your domain
+## 5. Link with your domain
 - 1. Connect to Cloudflare dashboard
 - 2. Click on `Workers & Pages` then `workers-graphql-server`
 - 3. Go to `Settings` after `Triggers` 
 - 4. There you can `Add Custom Domain` to your worker. Example: `api.your_domain`
 - 5. Now your graphql server is publicly accessible via `https://api.YOUR_DOMAIN`
 
-## 5. Additional infos
+## 6. Additional infos
 ### Endpoints
 
 Make requests to your GraphQL server at the `baseEndpoint` (e.g. `graphql-on-workers.dev.com/`) and, if configured, try GraphQL queries at the `playgroundEndpoint` (e.g. `graphql-on-workers.dev/_graphql`).
