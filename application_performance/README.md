@@ -17,7 +17,9 @@ Cloudflare Performance Services accelerate applications, improve mobile delivery
 ## 2. Cloudflare Services
 
 ### 2.1 DNS
-- **Technology**: When trying to load a website, you type its `domain` (e.g. `apple.com`) and DNS is what happens behind (without you even knowing) to translate that domain to the `IP address` of the server hosting that website. That process is called `DNS lookup`. Just keep in mind that computers can communicate to each other over the Internet through their public IPs.
+- **Technology**: 
+  - When trying to load a website, you type its `domain` (e.g. `apple.com`) and DNS is what happens behind (without you even knowing) to translate that domain to the `IP address` of the server hosting that website. 
+  - That process is called `DNS lookup`. Just keep in mind that computers can communicate to each other over the Internet through their public IPs.
 - **Challenges**:
     - `DNS lookup` should be lightning fast, consequently leading to faster load time of the website
     - `Authoritative DNS servers` should be highly available and globally distributed
