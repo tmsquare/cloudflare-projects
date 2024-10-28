@@ -25,7 +25,7 @@ Helps to save time on certificate management, issue and auto-renew TLS certifica
 
 1. `Universal SSL`: By default, Cloudflare issues — and renews — free, unshared, publicly trusted SSL certificates to all domains added to and activated on Cloudflare.  
 2. `Custom SSL`: meant for Business and Enterprise customers who want to use their own SSL certificates
-3. `Dedicated SSL or Advanced Certificate Manager (ACM)`: for something more customisable than Universal SSL but still, with the convenience of SSL certificate issuance and renewal.
+3. `Dedicated SSL or Advanced Certificate Manager (ACM)`: for something more customisable than Universal SSL but still, with the convenience of SSL certificate issuance and renewal by Cloudflare. (and you can go to another level deeper like *.api.my_domain.com which is not possible with universal ssl)
 4. `Origin CA certificate`: generate a certificate from cloudflare and install it on your origin → only allow your origin to trust Cloudflare edge servers
 5. `Keyless certificates`: allows security-conscious clients to upload their own custom certificates and benefit from Cloudflare, but without exposing their TLS private keys.
 6. Encryption modes: 

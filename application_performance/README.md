@@ -67,7 +67,12 @@ Cloudflare Performance Services accelerate applications, improve mobile delivery
 - **Challenges**
 - **Service Features**
 
-### 2.9 Analytics
+### 2.9 Zaraz
+- **Technology**
+- **Challenges**
+- **Service Features**
+
+### 2.10 Analytics
 - **Technology**
 - **Challenges**
 - **Service Features**
