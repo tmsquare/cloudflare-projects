@@ -1,0 +1,15 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('dataForm');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch('/submit', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        document.getElementById('response').innerText = result.message || 'Submission successful!';
+    });
+});

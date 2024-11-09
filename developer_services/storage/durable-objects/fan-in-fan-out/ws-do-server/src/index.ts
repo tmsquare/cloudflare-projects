@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { DurableObject } from "cloudflare:workers";
 
+
 export interface Env {
     MY_WS_SERVER: DurableObjectNamespace;   
 	MY_WS_CENTRAL_SERVER: Fetcher;  
@@ -131,6 +132,11 @@ app.get('/test', async (c) => {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Form Submission</title>
+			<style>
+				body { font-family: Arial, sans-serif; text-align: center; }
+				input { padding: 0.5em; margin: 0.5em; }
+				#response { margin-top: 1em; color: green; font-weight: bold; }
+			</style>
         </head>
         <body>
             <h1>Submit Your Details</h1>
