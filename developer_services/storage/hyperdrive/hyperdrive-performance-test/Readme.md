@@ -196,7 +196,7 @@ conn.close()
 
 
 # --------- HYPERDRIVE LINK -------- #
-url = 'https://rds-hyperdrive.mouhamadou-cloudflare.workers.dev'
+url = 'https://dev.tmsquare.net/hyperdrive'
 
 # Start the timer
 start_time = time.time()
