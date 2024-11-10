@@ -8,6 +8,7 @@ env
 venv
 .venv/*
 wrangler.toml
+postgres_creds.txt
 node_modules
 dist
 .wrangler

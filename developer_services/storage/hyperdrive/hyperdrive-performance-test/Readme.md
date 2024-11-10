@@ -11,6 +11,7 @@ Turn your existing regional database into a globally distributed database.
  *  Install Wrangler within your project using npm and Node.js: `npm install wrangler --save-dev` 
  *  A publicly accessible PostgreSQL database (on a different continent than yours) `https://neon.tech/`
 
+
 ## 1. Populate your postges DB
 Install `psycopg2`
 ```sh

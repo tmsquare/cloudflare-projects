@@ -2,7 +2,7 @@ import psycopg2
 import time
 import requests
 
-# --------- DIRECT ACESSS ---------- #
+# --------- DIRECT ACESSS ---------- # 
 db_params = {
     'host': 'xxxxxx',
     'database': 'xxxxx',
@@ -28,12 +28,9 @@ print(f"Fetch 100 entries (RDS instance: North Virginia): {elapsed_time:.2f} mil
 cursor.close()
 conn.close()
 
-
-
-
 # --------- HYPERDRIVE LINK -------- #
 
-url = 'https://rds-hyperdrive.mouhamadou-cloudflare.workers.dev'
+url = 'https://dev.tmsquare.net/hyperdrive'
 
 start_time = time.time()
 

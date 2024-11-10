@@ -111,7 +111,7 @@ export default class extends WorkerEntrypoint {
 		await durableObject.remove_server(origin_cluster, server, username)
 	}
 	
-}
+} 
 
 
 
