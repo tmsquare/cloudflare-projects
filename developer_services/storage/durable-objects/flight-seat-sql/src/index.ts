@@ -1,6 +1,7 @@
 
 import { DurableObject } from "cloudflare:workers";
 import { Hono } from 'hono';
+import { homePage } from './pages/home';
 
 
 export interface Env {
@@ -102,7 +103,7 @@ export class AirSeating extends DurableObject {
 }
 
 // Hono routes for ticket-related operations
-app.get('/', async (c) => {
+app.get('/do/flight-seat-sql', async (c) => {
 	// Create an instance of the Durable Object
 	const id = c.env.MY_AirSeating.idFromName("example");
 	const obj = c.env.MY_AirSeating.get(id);
@@ -110,27 +111,26 @@ app.get('/', async (c) => {
 	const seats: string[] = ["1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C"]
 	await obj.initializeFlight(seats)
 
-	return c.json({
-		"/": "Initialize with the following seats: 1A, 1B, 1C, 2A, 2B, 2C, 3A, 3B and 3C",
-		"/get-available-seats": "Get all the available seats now",
-		"/assign-seat": "Assign a seat to a given passenger: /assign-seat?seatId=3B&occupant=John",
-		"/reset-all": "Reset all the seats to null",
-		"/get-occupant": "Get which passenger is in a given seat: /get-occupant?seatId=3B"
-	});
+	//return new Response("Seats initialized.", { status: 200 });
+	return c.html(homePage());
   },
 );
 
-app.get('/get-available-seats', async (c) => {
+app.get('/do/flight-seat-sql/get-available-seats', async (c) => {
 	// Create an instance of the Durable Object
 	const id = c.env.MY_AirSeating.idFromName("example");
 	const obj = c.env.MY_AirSeating.get(id);
 
 	const availableSeats = await obj.getAvailable();
-	return c.text("The list of available seat: " + availableSeats);
+	//return c.text("The list of available seat: " + availableSeats);
+	//return new Response(JSON.stringify({ availableSeats }), { status: 200 });
+	return c.json({
+		seats: availableSeats,
+	});
   },
 );
 
-app.get('/assign-seat', async (c) => {
+app.get('/do/flight-seat-sql/assign-seat', async (c) => {
 	// Create an instance of the Durable Object
 	const id = c.env.MY_AirSeating.idFromName("example");
 	const obj = c.env.MY_AirSeating.get(id);
@@ -159,7 +159,7 @@ app.get('/assign-seat', async (c) => {
   },
 );
 
-app.get('/reset-all', async (c) => {
+app.get('/do/flight-seat-sql/reset-all', async (c) => {
 	// Create an instance of the Durable Object
 	const id = c.env.MY_AirSeating.idFromName("example");
 	const obj = c.env.MY_AirSeating.get(id);
@@ -169,7 +169,7 @@ app.get('/reset-all', async (c) => {
   },
 );
 
-app.get('/get-occupant', async (c) => {
+app.get('/do/flight-seat-sql/get-occupant', async (c) => {
 	// Create an instance of the Durable Object
 	const id = c.env.MY_AirSeating.idFromName("example");
 	const obj = c.env.MY_AirSeating.get(id);

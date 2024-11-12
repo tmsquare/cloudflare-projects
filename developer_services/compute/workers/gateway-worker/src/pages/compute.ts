@@ -18,77 +18,52 @@ export const ComputePage = () => html`
       </tr>
     </thead>
     <tbody>
-      <!-- Durable Objects Row with Sub-Rows -->
-      <tr onclick="toggleSubRows('durableObjectsSubRows')" style="cursor: pointer;">
-        <td>Durable Objects</td>
+      <!-- Workers Row with Sub-Rows -->
+      <tr onclick="toggleSubRows('workersSubRows')" style="cursor: pointer;">
+        <td>Workers</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for Durable Objects</td>
+        <td>Main description for CF Workers</td>
       </tr>
-      <tr class="durableObjectsSubRows subRow" style="display: none;">
-        <td>Durable Object 1</td>
+      <tr class="workersSubRows subRow" style="display: none;">
+        <td>Project 1</td>
         <td><a href="#">Link 1</a></td>
-        <td>Description for Durable Object 1</td>
-      </tr>
-      <tr class="durableObjectsSubRows subRow" style="display: none;">
-        <td>Durable Object 2</td>
-        <td><a href="#">Link 2</a></td>
-        <td>Description for Durable Object 2</td>
-      </tr>
-      <tr class="durableObjectsSubRows subRow" style="display: none;">
-        <td>Durable Object 3</td>
-        <td><a href="#">Link 3</a></td>
-        <td>Description for Durable Object 3</td>
+        <td>WIP</td>
       </tr>
 
-      <!-- KV Row with Sub-Rows -->
-      <tr onclick="toggleSubRows('kvSubRows')" style="cursor: pointer;">
-        <td>KV</td>
+      <!-- Pages with Sub-Rows -->
+      <tr onclick="toggleSubRows('pagesSubRows')" style="cursor: pointer;">
+        <td>Pages</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for KV</td>
+        <td>Main description for CF Pages</td>
       </tr>
-      <tr class="kvSubRows subRow" style="display: none;">
-        <td>KV Option 1</td>
+      <tr class="pagesSubRows subRow" style="display: none;">
+        <td>Project 1</td>
         <td><a href="#">Link 1</a></td>
-        <td>Description for KV Option 1</td>
-      </tr>
-      <tr class="kvSubRows subRow" style="display: none;">
-        <td>KV Option 2</td>
-        <td><a href="#">Link 2</a></td>
-        <td>Description for KV Option 2</td>
+        <td>WIP</td>
       </tr>
 
-      <!-- R2 Row with Sub-Rows -->
-      <tr onclick="toggleSubRows('r2SubRows')" style="cursor: pointer;">
-        <td>R2</td>
+      <!-- Workflows Row with Sub-Rows -->
+      <tr onclick="toggleSubRows('workflowsSubRows')" style="cursor: pointer;">
+        <td>Workflows</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for R2</td>
+        <td>Main description for Workflows</td>
       </tr>
-      <tr class="r2SubRows subRow" style="display: none;">
-        <td>R2 Option 1</td>
+      <tr class="workflowsSubRows subRow" style="display: none;">
+        <td>Project 1</td>
         <td><a href="#">Link 1</a></td>
-        <td>Description for R2 Option 1</td>
-      </tr>
-      <tr class="r2SubRows subRow" style="display: none;">
-        <td>R2 Option 2</td>
-        <td><a href="#">Link 2</a></td>
-        <td>Description for R2 Option 2</td>
+        <td>WIP</td>
       </tr>
 
-      <!-- D1 Row with Sub-Rows -->
-      <tr onclick="toggleSubRows('d1SubRows')" style="cursor: pointer;">
-        <td>D1</td>
+      <!-- Queues Row with Sub-Rows -->
+      <tr onclick="toggleSubRows('queuesSubRows')" style="cursor: pointer;">
+        <td>Queues</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for D1</td>
+        <td>Main description for Queues</td>
       </tr>
-      <tr class="d1SubRows subRow" style="display: none;">
-        <td>D1 Option 1</td>
+      <tr class="queuesSubRows subRow" style="display: none;">
+        <td>Project 1</td>
         <td><a href="#">Link 1</a></td>
-        <td>Description for D1 Option 1</td>
-      </tr>
-      <tr class="d1SubRows subRow" style="display: none;">
-        <td>D1 Option 2</td>
-        <td><a href="#">Link 2</a></td>
-        <td>Description for D1 Option 2</td>
+        <td>WIP</td>
       </tr>
     </tbody>
   </table>

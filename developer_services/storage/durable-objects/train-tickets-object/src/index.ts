@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { DurableObject } from "cloudflare:workers";
+import { homePage } from './pages/home';
 
 export interface Env {
     MY_Tickets: DurableObjectNamespace;  
@@ -13,12 +14,17 @@ export class Tickets extends DurableObject {
 	private storage: DurableObjectStorage;
 	currentlyConnectedWebSockets: number;
 	private connectedWebSockets: Set<WebSocket>
+	private availableTickets: number = 50; // Default ticket count
 
 	constructor(ctx: DurableObjectState, env: Env) {
 		super(ctx, env);
 		this.storage = ctx.storage;
 		this.currentlyConnectedWebSockets = 0;
 		this.connectedWebSockets = new Set();
+		this.ctx.blockConcurrencyWhile(async () => {
+			const storedCount = await this.ctx.storage.get<number>("availableTickets");
+			this.availableTickets = storedCount ?? 50; // Load or set default count to 50
+		});
 	}
 
 	// Get, set, increment, decrement, and reset tickets
@@ -113,17 +119,19 @@ export class Tickets extends DurableObject {
 }
 
 // Hono routes for ticket-related operations
-app.get('/', async (c) => {
-	return c.text('Welcome to the Tickets Reservation App. Try /get_tickets, /buy_ticket or /return_ticket', 200);
+app.get('/do/tickets', async (c) => {
+	return c.html(homePage());
 });
 
-app.get('/get_tickets', async (c) => {
+
+app.get('/do/tickets/get_tickets', async (c) => {
 	const id = c.env.MY_Tickets.idFromName("train-tickets");
 	const durableObject = c.env.MY_Tickets.get(id);
-	return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+	// //return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+	return new Response(JSON.stringify({ count: await durableObject.getAvailableTickets() }), { headers: { "Content-Type": "application/json" } });
 });
 
-app.get('/set_tickets', async (c) => {
+app.get('/do/tickets/set_tickets', async (c) => {
 	const new_value = c.req.query('new_value');
 	if (!new_value) {
 		return c.text('Missing query string: ?new_value=x', 400);
@@ -134,28 +142,30 @@ app.get('/set_tickets', async (c) => {
     return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
 });
 
-app.get('/buy_ticket', async (c) => {
+app.get('/do/tickets/buy_ticket', async (c) => {
 	const id = c.env.MY_Tickets.idFromName("train-tickets");
 	const durableObject = c.env.MY_Tickets.get(id);
 	await durableObject.decrementTicket();
-    return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+    //return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+	return new Response(JSON.stringify({ count: await durableObject.getAvailableTickets() }), { headers: { "Content-Type": "application/json" } });
 });
 
-app.get('/return_ticket', async (c) => {
+app.get('/do/tickets/return_ticket', async (c) => {
 	const id = c.env.MY_Tickets.idFromName("train-tickets");
 	const durableObject = c.env.MY_Tickets.get(id);
 	await durableObject.incrementTicket();
-    return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+    //return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
+	return new Response(JSON.stringify({ count: await durableObject.getAvailableTickets() }), { headers: { "Content-Type": "application/json" } });
 });
 
-app.get('/reset_all', async (c) => {
+app.get('/do/tickets/reset_all', async (c) => {
 	const id = c.env.MY_Tickets.idFromName("train-tickets");
 	const durableObject = c.env.MY_Tickets.get(id);
 	await durableObject.resetAvailableTicketsState();
     return new Response("Available Tickets: " + await durableObject.getAvailableTickets());
 });
 
-app.get('/websocket', async (c) => {
+app.get('/do/tickets/websocket', async (c) => {
 	const id = c.env.MY_Tickets.idFromName("train-tickets");
 	const durableObject = c.env.MY_Tickets.get(id);
 	return durableObject.fetch(c.req.raw);
