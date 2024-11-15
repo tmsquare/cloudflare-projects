@@ -36,9 +36,9 @@ export const AIPage = () => html`
         <td>Main description for AI Gateway</td>
       </tr>
       <tr class="AIgatewaySubRows subRow" style="display: none;">
-        <td>Project 1</td>
-        <td><a href="#">Link 1</a></td>
-        <td>WIP</td>
+        <td>Chatbot</td>
+        <td><a href="/ai/gateway" target="_blank">/ai/gateway</a></td>
+        <td>an AI Assistant linked to the AI Gateway API</td>
       </tr>
 
     </tbody>
