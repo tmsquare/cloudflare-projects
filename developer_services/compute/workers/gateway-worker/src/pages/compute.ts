@@ -22,7 +22,7 @@ export const ComputePage = () => html`
       <tr onclick="toggleSubRows('workersSubRows')" style="cursor: pointer;">
         <td>Workers</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for CF Workers</td>
+        <td>Serverless platform that lets developers run their code at the edge for fast, scalable, and secure application</td>
       </tr>
       <tr class="workersSubRows subRow" style="display: none;">
         <td>Project 1</td>
@@ -34,11 +34,11 @@ export const ComputePage = () => html`
       <tr onclick="toggleSubRows('pagesSubRows')" style="cursor: pointer;">
         <td>Pages</td>
         <td><a href="#">Main Link</a></td>
-        <td>Main description for CF Pages</td>
+        <td>JAMstack platform for deploying fast, secure, and scalable static sites and full-stack applications directly from your Git repository.</td>
       </tr>
       <tr class="pagesSubRows subRow" style="display: none;">
-        <td>Project 1</td>
-        <td><a href="#">Link 1</a></td>
+        <td>NextJs App (SSR)</td>
+        <td><a href="https://nextjs-pages.tmsquare.net/" target="_blank">nextjs-pages.tmsquare.net</a></td>
         <td>WIP</td>
       </tr>
 
