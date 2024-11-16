@@ -37,9 +37,9 @@ export const ComputePage = () => html`
         <td>JAMstack platform for deploying fast, secure, and scalable static sites and full-stack applications directly from your Git repository.</td>
       </tr>
       <tr class="pagesSubRows subRow" style="display: none;">
-        <td>NextJs App (SSR)</td>
+        <td>NextJs</td>
         <td><a href="https://nextjs-pages.tmsquare.net/" target="_blank">nextjs-pages.tmsquare.net</a></td>
-        <td>WIP</td>
+        <td>NextJs App running on Cloudflare Edge (SSR)</td>
       </tr>
 
       <!-- Workflows Row with Sub-Rows -->
