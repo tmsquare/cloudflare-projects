@@ -11,8 +11,8 @@ filename = sys.argv[1]
 # Word to count the number of occurence of 
 seach_word = sys.argv[2]
 
-worker_endpoint = "https://dev.tmsquare.net/do/word-count/"
-#worker_endpoint = "http://localhost:8787/do/word-count/"
+worker_endpoint = "https://dev.tmsquare.net/worker/word-count/"
+#worker_endpoint = "http://localhost:8787/worker/word-count/"
 
 # Configure the chunk size to be 5MB (except for the last part)
 chunksize = 5 * 1024 * 1024

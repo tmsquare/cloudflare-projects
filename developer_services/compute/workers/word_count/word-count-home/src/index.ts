@@ -5,7 +5,7 @@ const app = new Hono<{ Bindings: Env }>()
 
 
 // Hono routes 
-app.get('/do/word-count/*', async (c) => {
+app.get('/worker/word-count/*', async (c) => {
 	const docMessage = `
 	From Laptop to Lambda 🔥
 	
@@ -28,7 +28,7 @@ app.get('/do/word-count/*', async (c) => {
 	
 });
 
-app.post('/do/word-count/*', async (c) => {
+app.post('/worker/word-count/*', async (c) => {
 
   
 	const url = new URL(c.req.url);
