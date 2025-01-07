@@ -25,9 +25,9 @@ export const ComputePage = () => html`
         <td>Serverless platform that lets developers run their code at the edge for fast, scalable, and secure application</td>
       </tr>
       <tr class="workersSubRows subRow" style="display: none;">
-        <td>Project 1</td>
-        <td><a href="#">Link 1</a></td>
-        <td>WIP</td>
+        <td>Word Count</td>
+        <td><a href="/worker/word-count" target="_blank">/worker/word-count</a></td>
+        <td>From Laptop to Lambda. The idea is to use Cloud Threads (workers) to count the number of occurrence of a given keyword in a big file (100MB+)</td>
       </tr>
 
       <!-- Pages with Sub-Rows -->
