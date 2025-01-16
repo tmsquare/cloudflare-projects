@@ -9,7 +9,9 @@ export interface Env {
 
 const app = new Hono<{ Bindings: Env }>()
 
+/*
 export async function run(model: string, input: Record<string, any>, env: Env): Promise<any> {
+
 	const response = await fetch(
 		`https://gateway.ai.cloudflare.com/v1/${env.AI_GATEWAY_ACCOUNT_ID}/tmsquare-ai-gateway/workers-ai//ai/run/${model}`,
 		{
@@ -21,17 +23,17 @@ export async function run(model: string, input: Record<string, any>, env: Env): 
 	const result = await response.json();
 	return result;
 }
+*/	
   
 
-app.get('/ai/gateway', async (c) => {
+app.get('/ai/chatbot', async (c) => {
 	return c.html(homePage());
   },
 );
 
 
-app.post('/ai/gateway/prompt', async (c) => {
+app.post('/ai/chatbot/prompt', async (c) => {
 
-	const model = "@cf/meta/llama-3-8b-instruct";
     const { prompt } = await c.req.json();
 
 	if (!prompt) return c.json({ error: 'Prompt is required' }, 400);
@@ -40,18 +42,27 @@ app.post('/ai/gateway/prompt', async (c) => {
 		messages: [
 		  {
 			role: "system",
-			content: "You are a friendly assistan that helps write stories",
+			content: "You are a friendly assistan that helps in every question the user might have",
 		  },
 		  {
 			role: "user",
 			content: prompt,
 		  },
 		],
+		stream: true,
 	  }
 	  
+	  /*
+	  const response = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", input);
+	  return c.json(response)
+	  */
 
-	  const result = await run(model, input, c.env);
-	  return c.json({ reply: result.result.response });
+	  const stream = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", input);
+  
+	  return new Response(stream, {
+		headers: { "content-type": "text/event-stream" },
+	  });
+	  
   },
 );
   

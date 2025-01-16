@@ -90,6 +90,9 @@ export const homePage = () => html`
           max-height: 400px;
           overflow-y: auto;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          white-space: pre-wrap; 
+          border: 1px solid #ddd; 
+          padding: 10px; 
         }
 
         @media (max-width: 600px) {
@@ -104,6 +107,14 @@ export const homePage = () => html`
           .container {
             padding: 20px;
           }
+          pre {
+            padding: 10px;
+            background: #f3f3f3;
+            border-radius: 5px;
+          }
+          code {
+            font-family: monospace;
+          }
         }
       </style>
     </head>
@@ -114,32 +125,70 @@ export const homePage = () => html`
         <button id="submit">Generate Text</button>
         <div id="response">Response will appear here...</div>
       </div>
-      
+
       <script>
+        
         document.getElementById('submit').addEventListener('click', async () => {
+
+          console.log("Marked loaded:", typeof marked === "function");
+          console.log("Highlight.js loaded:", typeof hljs === "object");
+          
           const prompt = document.getElementById('prompt').value;
           const responseDiv = document.getElementById('response');
-        
+
           if (!prompt) {
             responseDiv.innerText = 'Please enter a prompt.';
             return;
           }
 
-          responseDiv.innerText = 'Generating response...';
+          responseDiv.innerHTML = '<p>Generating response...</p>';
 
           try {
-            const res = await fetch('/ai/gateway/prompt', {
+            const res = await fetch('/ai/chatbot/prompt', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt })
+              body: JSON.stringify({ prompt }),
             });
-            const data = await res.json();
-            responseDiv.innerText = data.reply || 'No response from AI';
+
+            if (!res.body) {
+              responseDiv.innerText = 'No response from AI.';
+              return;
+            }
+
+            // Read the streamed response
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let done = false;
+
+            responseDiv.innerHTML = ''; // Clear the "Generating response..." text
+
+            while (!done) {
+              const { value, done: readerDone } = await reader.read();
+              done = readerDone;
+              const chunk = decoder.decode(value, { stream: true });
+
+              // Parse the string which looks like: data: {"response":"Hello","p":"abcdefghijklmnopqrstuvwxyz0123456789abc"}
+              const jsonString = chunk.slice(6).trim();
+              try {
+                const data = JSON.parse(jsonString);
+                renderedHTML = data.response
+                responseDiv.innerHTML += renderedHTML;
+
+              } catch (error) {
+                console.log('Done');
+              }
+            }
           } catch (error) {
             console.error(error);
             responseDiv.innerText = 'Error communicating with the AI.';
           }
         });
+
+
+
+
+
+
       </script>
     </body>
     </html>
