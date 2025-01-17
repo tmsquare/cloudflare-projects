@@ -1,195 +1,462 @@
 import { html } from 'hono/html';
 
 export const homePage = () => html`
- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Tmsquare AI Text Generator</title>
-      <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: Arial, sans-serif;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tmsquare AI Text Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-        body {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          min-height: 100vh;
-          background: linear-gradient(to right, #4a00e0, #8e2de2);
-          color: #fff;
-          padding: 20px;
-        }
+    body {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+      background: linear-gradient(to right, #4a00e0, #8e2de2);
+      color: #fff;
+    }
 
-        .container {
-          max-width: 600px;
-          width: 100%;
-          background: #ffffff;
-          color: #333;
-          padding: 30px;
-          border-radius: 12px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-          text-align: center;
-        }
+    .sidebar {
+      width: 250px;
+      background-color: #3a0070;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        h1 {
-          margin-bottom: 1.5rem;
-          font-size: 2rem;
-          color: #4a00e0;
-        }
+    .welcomeText {
+      width: 250px;
+      background-color: #3a0070;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        textarea {
-          width: 100%;
-          height: 200px;
-          padding: 15px;
-          margin: 20px 0;
-          border-radius: 10px;
-          border: 1px solid #ddd;
-          font-size: 1rem;
-          transition: border-color 0.3s, box-shadow 0.3s;
-          resize: vertical;
-          background: #f9f9f9;
-        }
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+    }
 
-        textarea:focus {
-          border-color: #8e2de2;
-          outline: none;
-          box-shadow: 0 0 8px rgba(142, 45, 226, 0.3);
-        }
+    .sidebar h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
 
-        button {
-          width: 100%;
-          padding: 15px;
-          font-size: 1.1rem;
-          font-weight: bold;
-          color: #ffffff;
-          background-color: #8e2de2;
-          border: none;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
 
-        button:hover {
-          background-color: #682ae9;
-        }
+    .sidebar ul li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
 
-        #response {
-          margin-top: 20px;
-          padding: 20px;
-          background: #f3f4f7;
-          border-radius: 10px;
-          color: #333;
-          font-size: 1rem;
-          line-height: 1.6;
-          text-align: left;
-          max-height: 400px;
-          overflow-y: auto;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          white-space: pre-wrap; 
-          border: 1px solid #ddd; 
-          padding: 10px; 
-        }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      color: #333;
+    }
 
-        @media (max-width: 600px) {
-          h1 {
-            font-size: 1.5rem;
-          }
-          
-          button, textarea {
-            font-size: 1rem;
-          }
+    .response-area {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
 
-          .container {
-            padding: 20px;
-          }
-          pre {
-            padding: 10px;
-            background: #f3f3f3;
-            border-radius: 5px;
-          }
-          code {
-            font-family: monospace;
-          }
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>Tmsquare AI</h1>
-        <textarea id="prompt" placeholder="Enter your prompt here..."></textarea>
-        <button id="submit">Generate Text</button>
-        <div id="response">Response will appear here...</div>
-      </div>
+    .response-area .question {
+      font-weight: bold;
+      color: #4a00e0;
+    }
 
-      <script>
-        
-        document.getElementById('submit').addEventListener('click', async () => {
+    .response-area .answer {
+      margin-bottom: 20px;
+      color: #333;
+    }
 
-          console.log("Marked loaded:", typeof marked === "function");
-          console.log("Highlight.js loaded:", typeof hljs === "object");
-          
-          const prompt = document.getElementById('prompt').value;
-          const responseDiv = document.getElementById('response');
+    h1 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      color: #4a00e0;
+      text-align: center; 
+    }
 
-          if (!prompt) {
-            responseDiv.innerText = 'Please enter a prompt.';
-            return;
-          }
+   .input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      background: #4a00e0;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-          responseDiv.innerHTML = '<p>Generating response...</p>';
+    .input-area textarea {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1rem;
+      resize: none;
+    }
 
-          try {
-            const res = await fetch('/ai/chatbot/prompt', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt }),
-            });
+    button {
+      width: auto;
+      padding: 8px 14px; 
+      font-size: 1rem; 
+      font-weight: normal;
+      color: #682ae9;
+      background-color: rgb(254, 254, 254);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 3px;
+    }
 
-            if (!res.body) {
-              responseDiv.innerText = 'No response from AI.';
-              return;
-            }
+    button:hover {
+      background-color:rgb(142, 104, 224);
+    }
 
-            // Read the streamed response
-            const reader = res.body.getReader();
-            const decoder = new TextDecoder();
-            let done = false;
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
 
-            responseDiv.innerHTML = ''; // Clear the "Generating response..." text
 
-            while (!done) {
-              const { value, done: readerDone } = await reader.read();
-              done = readerDone;
-              const chunk = decoder.decode(value, { stream: true });
+    .recording {
+      background-color: red !important;
+    }
 
-              // Parse the string which looks like: data: {"response":"Hello","p":"abcdefghijklmnopqrstuvwxyz0123456789abc"}
-              const jsonString = chunk.slice(6).trim();
-              try {
-                const data = JSON.parse(jsonString);
-                renderedHTML = data.response
-                responseDiv.innerHTML += renderedHTML;
+    .response-area {
+      padding: 20px;
+      margin-bottom: 70px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
 
-              } catch (error) {
-                console.log('Done');
-              }
-            }
-          } catch (error) {
-            console.error(error);
-            responseDiv.innerText = 'Error communicating with the AI.';
-          }
+    #response img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .input-area textarea {
+        height: 50px;
+      }
+    }
+    
+    @media (max-width: 600px) {
+    button {
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      margin: 2px;
+    }
+
+    .buttons-container {
+      gap: 4px;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <div class="main-content">
+    <h1>Tmsquare AI</h1>
+    <div class="response-area" id="response">
+    </div>
+
+    <div class="input-area">
+      <textarea id="prompt" placeholder="Enter your prompt here..."></textarea>
+     <div class="buttons-container">
+      <button id="send-btn">Send</button>
+      <button id="generate-image-btn">Generate Image</button>
+      <button id="record-btn">Record</button>
+    </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const sendButton = document.getElementById('send-btn');
+    const generateImageButton = document.getElementById('generate-image-btn');
+    const recordButton = document.getElementById('record-btn');
+    const promptInput = document.getElementById('prompt');
+    const responseDiv = document.getElementById('response');
+
+    sendButton?.addEventListener('click', async () => {
+      const prompt = promptInput?.value;
+
+      if (!prompt) {
+        responseDiv?.insertAdjacentHTML('beforeend', '<p>Please enter a prompt.</p>');
+        responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+        return;
+      }
+
+      // Append the user's question to the UI
+      responseDiv?.insertAdjacentHTML(
+        'beforeend',
+        \`<p class="question">Q: \${prompt}</p>\`
+      );
+      document.getElementById('prompt').value = '';
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+
+      responseDiv?.insertAdjacentHTML(
+        'beforeend',
+        '<p class="answer"><em></em></p>'
+      );
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+
+      try {
+        const res = await fetch('/ai/chatbot/prompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
         });
 
+        if (!res.body) {
+          responseDiv.innerText = 'No response from AI.';
+          return;
+        }
+
+        // Read the streamed response
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+          const chunk = decoder.decode(value, { stream: true });
+
+          // Parse the string which looks like: data: {"response":"Hello","p":"abcdefghijklmnopqrstuvwxyz0123456789abc"}
+          const jsonString = chunk.slice(6).trim();
+          try {
+            const data = JSON.parse(jsonString);
+
+            // Check if the last response paragraph exists
+            let lastAnswer = responseDiv.querySelector('.answer:last-of-type');
+            if (!lastAnswer) {
+              // Create a new paragraph if one doesn't exist
+              lastAnswer = document.createElement('p');
+              lastAnswer.classList.add('answer');
+              responseDiv.appendChild(lastAnswer);
+            }
+
+            // Append the new text to the existing paragraph
+            lastAnswer.textContent += data.response;
+
+            // Scroll to the bottom to ensure the latest text is visible
+            responseDiv.scrollTo(0, responseDiv.scrollHeight);
+          } catch (error) {
+            console.log('Done');
+          }
+        }
+
+      } catch (error) {
+        console.error(error);
+        //responseDiv.innerText = 'Error communicating with the AI.';
+        responseDiv?.insertAdjacentHTML('beforeend', '<p class="answer">Error: Unable to communicate with the server.</p>');
+      }
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+    });
 
 
 
 
+    // Function to handle image generation
+    generateImageButton?.addEventListener('click', async () => {
+      const prompt = promptInput?.value;
 
-      </script>
-    </body>
-    </html>
+      if (!prompt) {
+        responseDiv?.insertAdjacentHTML('beforeend', '<p>Please enter a prompt.</p>');
+        responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+        return;
+      }
+
+      // Append the user's question to the UI
+      responseDiv?.insertAdjacentHTML(
+        'beforeend',
+         \`<p class="question">Q: \${prompt}</p>\`
+      );
+      document.getElementById('prompt').value = '';
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+
+      responseDiv?.insertAdjacentHTML(
+        'beforeend',
+        '<p class="answer"><em></em></p>'
+      );
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+
+      try {
+        const res = await fetch('/ai/chatbot/generate-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+
+        if (res.ok) {
+          const blob = await res.blob();
+          const imageURL = URL.createObjectURL(blob);
+          // Append the generated image to the UI
+          responseDiv?.insertAdjacentHTML(
+            'beforeend',
+            \`<img src="\${imageURL}" alt="Generated Image" />\`
+          );
+        } else {
+          responseDiv?.insertAdjacentHTML(
+            'beforeend',
+            '<p class="answer">Error: Unable to generate image.</p>'
+          );
+        }
+      } catch (error) {
+        console.error(error);
+        responseDiv?.insertAdjacentHTML(
+          'beforeend',
+          '<p class="answer">Error: Unable to communicate with the server.</p>'
+        );
+      }
+
+      responseDiv?.scrollTo(0, responseDiv.scrollHeight);
+    });
+
+
+
+    // Record voice
+    let mediaRecorder;
+    let audioChunks = [];
+
+    recordButton?.addEventListener('mousedown', startRecording);
+    recordButton?.addEventListener('mouseup', stopRecording);
+    recordButton?.addEventListener('touchstart', startRecording);
+    recordButton?.addEventListener('touchend', stopRecording);
+
+    async function startRecording() {
+      try {
+        recordButton.classList.add('recording');
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunks.push(event.data);
+          }
+        };
+
+        mediaRecorder.start();
+      } catch (error) {
+        console.error('Error accessing microphone:', error);
+        responseDiv?.insertAdjacentHTML(
+          'beforeend',
+          '<p class="answer">Error: Unable to access microphone.</p>'
+        );
+      }
+    }
+
+    function stopRecording() {
+      recordButton.classList.remove('recording');
+
+      if (mediaRecorder?.state === 'recording') {
+        mediaRecorder.stop();
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          sendVoice(audioBlob);
+        };
+      }
+    }
+
+    async function sendVoice(audioBlob) {
+      responseDiv?.insertAdjacentHTML(
+        'beforeend',
+        '<p class="answer"><em></em></p>'
+      );
+
+      try {
+        const res = await fetch('/ai/chatbot/send-voice', {
+          method: 'POST',
+          body: audioBlob,
+        });
+
+        if (!res.body) {
+          responseDiv?.insertAdjacentHTML(
+            'beforeend',
+            '<p class="answer">Error: No response from server.</p>'
+          );
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+
+        responseDiv?.insertAdjacentHTML('beforeend', '<p>Q: [Voice input]</p>');
+
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+          const chunk = decoder.decode(value, { stream: true });
+
+          // Parse the string which looks like: data: {"response":"Hello","p":"abcdefghijklmnopqrstuvwxyz0123456789abc"}
+          const jsonString = chunk.slice(6).trim();
+          try {
+            const data = JSON.parse(jsonString);
+
+            // Check if the last response paragraph exists
+            let lastAnswer = responseDiv.querySelector('.answer:last-of-type');
+            if (!lastAnswer) {
+              // Create a new paragraph if one doesn't exist
+              lastAnswer = document.createElement('p');
+              lastAnswer.classList.add('answer');
+              responseDiv.appendChild(lastAnswer);
+            }
+
+            // Append the new text to the existing paragraph
+            lastAnswer.textContent += data.response;
+
+            // Scroll to the bottom to ensure the latest text is visible
+            responseDiv.scrollTo(0, responseDiv.scrollHeight);
+          } catch (error) {
+            console.log('Done');
+          }
+        }
+      } catch (error) {
+        console.error('Error sending voice input:', error);
+        responseDiv?.insertAdjacentHTML(
+          'beforeend',
+          '<p class="answer">Error: Unable to communicate with the server.</p>'
+        );
+      }
+    }
+
+
+  </script>
+
+</body>
+</html>
+
 `;

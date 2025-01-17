@@ -51,11 +51,6 @@ app.post('/ai/chatbot/prompt', async (c) => {
 		],
 		stream: true,
 	  }
-	  
-	  /*
-	  const response = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", input);
-	  return c.json(response)
-	  */
 
 	  const stream = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", input);
   
@@ -65,6 +60,77 @@ app.post('/ai/chatbot/prompt', async (c) => {
 	  
   },
 );
+
+app.post('/ai/chatbot/generate-image', async (c) => {
+
+    const input = await c.req.text();
+
+	if (!input) return c.json({ error: 'Prompt is required' }, 400);
+	  
+	  const inputs = {
+		prompt: input,
+	  };
+  
+	  const response = await c.env.AI.run( "@cf/bytedance/stable-diffusion-xl-lightning", inputs);
+  
+	  return new Response(response, {
+		headers: {
+		  "content-type": "image/jpg",
+		},
+	  });
+	  
+  },
+);
+
+app.post("/ai/chatbot/send-voice", async (c) => {
+	try {
+	  // Step 1: Retrieve audio from the request
+	  const audioBlob = await c.req.arrayBuffer();
+	  const audioArray = [...new Uint8Array(audioBlob)];
+	  
+  
+	  // Step 2: Process audio with Whisper model
+	  const whisperInput = { audio: audioArray };
+	  const whisperResponse = await c.env.AI.run(
+		"@cf/openai/whisper-tiny-en",
+		whisperInput
+	  );
+  
+	  if (!whisperResponse || !whisperResponse.text) {
+		return c.json({ error: "Failed to transcribe audio." }, 500);
+	  }
+	  const transcribedText = whisperResponse.text;
+  
+	  // Step 3: Pass transcription to Llama-3 model
+	  const llamaInput = {
+		messages: [
+		  {
+			role: "system",
+			content:
+			  "You are a friendly assistant that helps in every question the user might have.",
+		  },
+		  {
+			role: "user",
+			content: transcribedText,
+		  },
+		],
+		stream: true,
+	  };
+  
+	  const llamaStream = await c.env.AI.run(
+		"@cf/meta/llama-3-8b-instruct",
+		llamaInput
+	  );
+  
+	  // Step 4: Stream the response back to the client
+	  return new Response(llamaStream, {
+		headers: { "Content-Type": "text/event-stream" },
+	  });
+	} catch (error) {
+	  console.error("Error processing voice input:", error);
+	  return c.json({ error: "An error occurred while processing the request." }, 500);
+	}
+  });
   
 export default app;
 
