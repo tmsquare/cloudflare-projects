@@ -153,7 +153,7 @@ export class MyImageWorkflow extends WorkflowEntrypoint<Env, Params> {
 					email: "workflows@tmsquare.net", 
 					name: "Tmsquare Workflows",
 					},
-					subject: "Thank You for Subscribing to Tmsquare Workflows!",
+					subject: "You Image is Ready 🚀",
 					content: [
 					{
 					type: "text/html",
