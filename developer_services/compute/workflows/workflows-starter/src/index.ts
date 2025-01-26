@@ -1,23 +1,25 @@
 import { WorkflowEntrypoint, WorkflowStep, WorkflowEvent } from 'cloudflare:workers';
+import { Hono } from 'hono';
+
+
+const app = new Hono<{ Bindings: Env }>();
 
 type Env = {
-	// Add your bindings here, e.g. Workers KV, D1, Workers AI, etc.
 	MY_WORKFLOW: Workflow;
 };
 
-// User-defined params passed to your workflow
 type Params = {
 	email: string;
 	metadata: Record<string, string>;
 };
 
-export class MyWorkflow extends WorkflowEntrypoint<Env, Params> {
-	async run(event: WorkflowEvent<Params>, step: WorkflowStep) {
-		// Can access bindings on `this.env`
-		// Can access params on `event.params`
 
+export class MyWorkflow extends WorkflowEntrypoint<Env, Params> { 
+	async run(event: WorkflowEvent<Params>, step: WorkflowStep) {
+	
+		// Can access bindings on `this.env`
+    	// Can access params on `event.payload`
 		const files = await step.do('my first step', async () => {
-			// Fetch a list of files from $SOME_SERVICE
 			return {
 				inputParams: event,
 				files: [
@@ -61,28 +63,32 @@ export class MyWorkflow extends WorkflowEntrypoint<Env, Params> {
 	}
 }
 
-export default {
-	async fetch(req: Request, env: Env): Promise<Response> {
-		let url = new URL(req.url);
 
-		if (url.pathname.startsWith('/favicon')) {
-			return Response.json({}, { status: 404 });
-		}
+app.get('/', async (c) => {
 
-		// Get the status of an existing instance, if provided
-		let id = url.searchParams.get('instanceId');
-		if (id) {
-			let instance = await env.MY_WORKFLOW.get(id);
-			return Response.json({
-				status: await instance.status(),
-			});
-		}
+	let url = new URL(c.req.url);
 
-		// Spawn a new instance and return the ID and status
-		let instance = await env.MY_WORKFLOW.create();
+	if (url.pathname.startsWith('/favicon')) {
+		return Response.json({}, { status: 404 });
+	}
+
+	// Get the status of an existing instance, if provided
+	let id = url.searchParams.get('instanceId');
+	if (id) {
+		let instance = await c.env.MY_WORKFLOW.get(id);
 		return Response.json({
-			id: instance.id,
-			details: await instance.status(),
+			status: await instance.status(),
 		});
-	},
-};
+	}
+
+	// Spawn a new instance and return the ID and status
+	let instance = await c.env.MY_WORKFLOW.create();
+	return Response.json({
+		id: instance.id,
+		details: await instance.status(),
+	});
+
+})
+
+export default app;
+
