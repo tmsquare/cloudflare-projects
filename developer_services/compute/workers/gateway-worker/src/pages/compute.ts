@@ -42,18 +42,6 @@ export const ComputePage = () => html`
         <td>NextJs App running on Cloudflare Edge (SSR)</td>
       </tr>
 
-      <!-- Workflows Row with Sub-Rows -->
-      <tr onclick="toggleSubRows('workflowsSubRows')" style="cursor: pointer;">
-        <td>Workflows</td>
-        <td><a href="#">Main Link</a></td>
-        <td>Main description for Workflows</td>
-      </tr>
-      <tr class="workflowsSubRows subRow" style="display: none;">
-        <td>Image Generation</td>
-        <td><a href="/workflows" target="_blank>/workflows</a></td>
-        <td>A workflows project with 4 steps: 1) API call to generate image 2) Store image on R2 3) Log request in D1 4) Send image URL via email</td>
-      </tr>
-
       <!-- Queues Row with Sub-Rows -->
       <tr onclick="toggleSubRows('queuesSubRows')" style="cursor: pointer;">
         <td>Queues</td>
@@ -65,6 +53,19 @@ export const ComputePage = () => html`
         <td><a href="#">Link 1</a></td>
         <td>WIP</td>
       </tr>
+
+      <!-- Workflows Row with Sub-Rows -->
+      <tr onclick="toggleSubRows('workflowsSubRows')" style="cursor: pointer;">
+        <td>Workflows</td>
+        <td><a href="#">Main Link</a></td>
+        <td>Workflows is a durable execution engine built on Cloudflare Workers. Workflows allow you to build multi-step applications </td>
+      </tr>
+      <tr class="workflowsSubRows subRow" style="display: none;">
+        <td>Image Generation</td>
+        <td><a href="/workflows" target="_blank">/workflows</a></td>
+        <td>A workflows project with 4 steps: 1) API call to generate image 2) Store image on R2 3) Log request in D1 4) Send image URL via email</td>
+      </tr>
+
     </tbody>
   </table>
 `;
