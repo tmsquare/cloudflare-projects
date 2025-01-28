@@ -28,6 +28,11 @@ export const AIPage = () => html`
         <td><a href="/ai/chatbot" target="_blank">/ai/chatbot</a></td>
         <td>an AI Assistant helping in general question</td>
       </tr>
+      <tr class="workersAISubRows subRow" style="display: none;">
+        <td>Deepseek</td>
+        <td><a href="/ai/deepseek" target="_blank">/ai/deepseek</a></td>
+        <td>an AI Assistant helping in general question</td>
+      </tr>
 
       <!-- AI Gateway Row with Sub-Rows -->
       <tr onclick="toggleSubRows('AIgatewaySubRows')" style="cursor: pointer;">
