@@ -26,7 +26,7 @@ class VpnInfrastructureStack(Stack):
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                     name="cf-subnet",
-                    subnet_type=ec2.SubnetType.PUBLIC,
+                    subnet_type=ec2.SubnetType.PRIVATE,
                     cidr_mask=24
                 )
             ],
@@ -41,7 +41,7 @@ class VpnInfrastructureStack(Stack):
         self.customer_gateway = ec2.CfnCustomerGateway(
             self, "cf-customer-gateway",
             bgp_asn=65000,
-            ip_address=config['vpn']['cloudflare_ip'],
+            ip_address=config['vpn']['magic_wan_ip'],
             type="ipsec.1",
             tags=[{"key": "Name", "value": "cf-customer-gateway"}]
         )
