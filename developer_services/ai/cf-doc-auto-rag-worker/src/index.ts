@@ -21,9 +21,7 @@ app.post('/prompt', async (c) => {
 
 	if (!prompt) return c.json({ error: 'Prompt is required' }, 400);
 
-	console.log(prompt)
-
-	const answer = await c.env.AI.autorag("auto-rag-francais").aiSearch({
+	const answer = await c.env.AI.autorag("cf-doc-rag-bucket").aiSearch({
 		query: prompt,
 		rewrite_query: true,
 		max_num_results: 2,
@@ -32,7 +30,6 @@ app.post('/prompt', async (c) => {
 		}
 	  });
 
-	  console.log(answer)
 
 	return c.json(answer);
 	  
