@@ -36,3 +36,5 @@ cdk.out
 
 config.yaml
 __init__.py
+
+wrangler.jsonc

@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "puppeteer-core": "^22.3.0",
+    "croner": "^8.0.1"
+  }
+}

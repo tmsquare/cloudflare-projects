@@ -15,6 +15,7 @@ type Env = {
 	SENDGRID_API_KEY: string;
 };
 
+
 // User-defined params passed to your workflow
 type Params = {
 	username: string;
